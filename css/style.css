@@ -1,3 +1,60 @@
+.loginback{
+    background: #bff4ed;
+    height: 100vh;
+    overflow-x: hidden;
+    margin: -10px;
+    font-family: calibri;
+    
+}
 .navbar > li{
     color: azure;
+}
+.login-form{
+	background-color: #1c4b82;
+	display: table;
+	margin-left: auto;
+    margin-top: 190px;
+	margin-right: auto;
+	padding: 30px;
+	color: white;
+	border-radius: 10px;
+}
+.login-form img{
+	width: 110px;
+    height: 110px;
+    border-radius: 50%;
+
+}
+
+.login-form input{
+	width: 200px;
+	padding: 7px;
+	border: none;
+	border-radius: 9px;
+
+}
+
+.login-form input:focus{
+	outline: none;
+}
+
+.login-form button{
+	padding: 9px;
+	background-color: green;
+	color: white;
+	border-radius: 5px;
+	border: none;
+	cursor: pointer;
+
+}
+
+
+.form-input{
+	margin-top: 20px;
+
+}
+.logindiv{
+    width: 100%;
+
+
 }
