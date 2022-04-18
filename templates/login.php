@@ -1,33 +1,52 @@
 <?php
-include_once('header.php');
+include "db_conn.php";
+
+if (isset($_POST['uname']) && isset($_POST['password'])) {
+
+    function validate($data)
+    {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+    }
+
+    $uname = validate($_POST['uname']);
+    $pass = validate($_POST['password']);
+
+    if (empty($uname)) {
+        header("Location: ../index.php?error=User Name is required");
+        exit();
+    } else if (empty($pass)) {
+        header("Location: ../index.php?error=Password is required");
+        exit();
+    } else {
+        // hashing the password
+        $pass = md5($pass);
 
 
-?>
-<div class="loginback">
-    <div class=" logindiv">
-        <form class="login-form">
-            <h1>
-                <center>Login</center>
-            </h1>
-            <div class="form-input">
-                <label class="form-label" for="username">Username:</label>
-                <input class="form-control" type="text" id="username" placeholder="Enter Username">
-            </div>
-            <div class="form-input">
+        $sql = "SELECT * FROM users WHERE user_name='$uname' AND password='$pass'";
 
-                <label class="form-label" for="password">Password:</label>
-                <input class="form-control" type="Password" id="password" placeholder="Enter Password">
+        $result = mysqli_query($conn, $sql);
 
-            </div>
-            <div class="form-input">
-                <center><button type="submit">Login</button></center>
-            </div>
-            <div class="form-input">
-                <center>Forgot Password?</center>
-        </form>
-
-
-
-    </div>
-
-</div>
+        if (mysqli_num_rows($result) === 1) {
+            $row = mysqli_fetch_assoc($result);
+            if ($row['user_name'] === $uname && $row['password'] === $pass) {
+                $_SESSION['user_name'] = $row['user_name'];
+                $_SESSION['name'] = $row['name'];
+                $_SESSION['id'] = $row['id'];
+                header("Location: ../admin");
+                exit();
+            } else {
+                header("Location: ../index.php?error=Incorect User name or password");
+                exit();
+            }
+        } else {
+            header("Location: ../index.php?error=Incorect User name or password");
+            exit();
+        }
+    }
+} else {
+    header("Location: ../index.php");
+    exit();
+}
